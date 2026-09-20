@@ -178,7 +178,16 @@
           <li>Side-by-side zone comparison</li>
           <li>Printable for your records</li>
         </ul>
-        <button class="btn btn-ghost" id="buyPack">Get the 3-pack — $39</button>
+        <div class="pack-addrs" id="packAddrs">
+          <p class="microcopy" style="text-align:left;margin:0 0 8px">Step 1 — look up each address. The 3-pack attaches to 3 saved lookups.</p>
+          <input type="text" class="pack-addr" id="packAddr1" placeholder="Address 1" autocomplete="street-address" style="width:100%;font-size:16px;padding:13px;border:1.5px solid var(--line);border-radius:12px;margin-bottom:8px">
+          <input type="text" class="pack-addr" id="packAddr2" placeholder="Address 2" autocomplete="street-address" style="width:100%;font-size:16px;padding:13px;border:1.5px solid var(--line);border-radius:12px;margin-bottom:8px">
+          <input type="text" class="pack-addr" id="packAddr3" placeholder="Address 3" autocomplete="street-address" style="width:100%;font-size:16px;padding:13px;border:1.5px solid var(--line);border-radius:12px;margin-bottom:10px">
+          <button class="btn btn-ghost" id="packLookupBtn" type="button" style="min-height:52px">Check all 3 addresses</button>
+          <div id="packStatus" style="margin-top:8px"></div>
+          <ul id="packResults" style="list-style:none;margin:8px 0 0;padding:0"></ul>
+        </div>
+        <button class="btn btn-ghost" id="buyPack" style="margin-top:10px">Get the 3-pack — $39</button>
         <p class="microcopy">For buyers comparing houses</p>
       </div>
     </div>
@@ -272,15 +281,59 @@ form.addEventListener("submit", async (e) => {
   });
 });
 
+// 3-pack: collect 3 distinct lookup tokens (checkout.js enforces this too)
+const PACK_KEY = "floodlens.pack.v1";
+function getPack() { try { return JSON.parse(localStorage.getItem(PACK_KEY) || "[]"); } catch { return []; } }
+function setPack(p) { localStorage.setItem(PACK_KEY, JSON.stringify(p)); }
+function renderPack() {
+  const ul = $("#packResults"); if (!ul) return;
+  const pk = getPack();
+  ul.innerHTML = pk.map((p, i) => `<li class="pack-hit" style="padding:8px 0;border-top:1px solid var(--line);font-size:14px">✓ <b>${i + 1}.</b> ${esc(p.address)} — <b>Zone ${esc(p.zone || "?")}</b></li>`).join("");
+}
+function packStatus(html) { const s = $("#packStatus"); if (s) s.innerHTML = html; }
+$("#packLookupBtn").addEventListener("click", async () => {
+  const addrs = [$("#packAddr1").value.trim(), $("#packAddr2").value.trim(), $("#packAddr3").value.trim()];
+  if (addrs.some((a) => !a)) { packStatus(`<div class="state error">Enter all three addresses first.</div>`); return; }
+  const btn = $("#packLookupBtn"); btn.disabled = true; const orig = btn.textContent;
+  packStatus(`<div class="state working"><span class="spin"></span>Reading FEMA's maps for 3 addresses…</div>`);
+  $("#packResults").innerHTML = "";
+  const out = [];
+  for (let i = 0; i < 3; i++) {
+    btn.textContent = `Checking ${i + 1} of 3…`;
+    const r = await apiPost(LOOKUP_URL, { address: addrs[i] }, 25000);
+    if (r.networkError || !r.ok || !r.data || r.data.ok !== true) {
+      packStatus(`<div class="state warn">Couldn't read FEMA data for address ${i + 1} — try again in a moment. Nothing saved yet.</div>`);
+      btn.disabled = false; btn.textContent = orig; return;
+    }
+    out.push({ address: addrs[i], token: r.data.lookup_token, zone: r.data.zone });
+  }
+  setPack(out); renderPack();
+  packStatus(`<div class="state working" style="background:var(--ok-soft);color:var(--ok)">✓ All 3 lookups saved — the 3-pack is ready below.</div>`);
+  btn.disabled = false; btn.textContent = orig;
+});
+renderPack();
+
 // checkout
 async function checkout(product_id) {
   const email = ($("#buyEmail").value || getEmail()).trim();
   if (!validEmail(email)) { alert("Enter your email first — that's where we deliver the report."); $("#buyEmail").focus(); return; }
   setEmail(email);
   const lk = getLookup() || {};
+  let params;
+  if (product_id === "floodlens-3pack") {
+    const pk = getPack();
+    const tokens = pk.map((p) => p.token).filter(Boolean);
+    if (tokens.length !== 3 || new Set(tokens).size !== 3) {
+      alert("Look up all 3 addresses above first — the 3-pack needs 3 saved lookups.");
+      $("#packAddrs").scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+    params = { lookup_tokens: tokens, addresses: pk.map((p) => p.address) };
+  } else {
+    params = { lookup_token: lk.token || null, address: lk.address || addrInput.value.trim() || null };
+  }
   const body = {
-    product_id, email,
-    params: { lookup_token: lk.token || null, address: lk.address || addrInput.value.trim() || null },
+    product_id, email, params,
     success_url: "https://floodlens.mehyar.us/success.html",
     cancel_url: "https://floodlens.mehyar.us/#get-report",
   };
