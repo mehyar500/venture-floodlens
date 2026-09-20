@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FloodLens — Payment confirmation</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="site-head"><div class="inner">
+  <a class="logo" href="index.html"><span class="wave">🌊</span>Flood<span class="lens">Lens</span></a>
+</div></header>
+
+<div class="wrap">
+  <div style="margin-top:34px" id="panel">
+    <p class="eyebrow">Order confirmation</p>
+    <h1>Confirming your payment…</h1>
+    <p class="muted">This usually takes a few seconds. Don't close this page.</p>
+    <div class="state working"><span class="spin"></span> Waiting for the payment processor…</div>
+  </div>
+
+  <footer class="site">
+    <div class="brand">🌊 Flood<span class="lens">Lens</span> <span class="tiny">by Mehyar Soft LLC</span></div>
+    <nav><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="unsubscribe.html">Unsubscribe</a></nav>
+    <div class="tiny">Questions: <a href="mailto:info@mehyar.us">info@mehyar.us</a> · © 2026 Mehyar Soft LLC.</div>
+  </footer>
+</div>
+
+<script type="module">
+import { $, apiGet, esc, DOWNLOAD_URL, STATUS_URL } from "./assets/app.js";
+
+const panel = $("#panel");
+const token = new URLSearchParams(location.search).get("token");
+
+if (!token) {
+  panel.innerHTML = `<p class="eyebrow">Order confirmation</p>
+    <h1>We couldn't find your order</h1>
+    <p class="muted">There's no purchase token in this link. If you just paid, check your email for the report link (unsubscribe anytime, one click) — or start below.</p>
+    <a class="btn btn-water" href="index.html">Look up a free zone →</a>`;
+} else {
+  poll();
+}
+
+async function poll() {
+  const maxTries = 40; // ~2 minutes at 3s intervals
+  for (let i = 0; i < maxTries; i++) {
+    const r = await apiGet(`${STATUS_URL}?token=${encodeURIComponent(token)}`, 10000);
+    const d = r.data || {};
+    const s = d.status || d.state || (d.paid ? "paid" : null);
+    if (r.ok && (s === "paid" || d.paid === true || d.ok === true)) {
+      panel.innerHTML = `<p class="eyebrow">Payment confirmed</p>
+        <div class="big-emoji">📄</div>
+        <h1>Your FloodLens report is ready</h1>
+        <p class="muted">Token-gated download — this link is yours. Keep it somewhere safe.</p>
+        <a class="btn btn-water" href="${DOWNLOAD_URL}?token=${encodeURIComponent(token)}" download>Download my report (PDF)</a>
+        <p class="microcopy">The same link was emailed to you (one-click unsubscribe).</p>
+        <div class="token-box">${esc(token)}</div>
+        <p class="tiny">Not an official flood determination. Premium ranges are estimates, not quotes.</p>`;
+      return;
+    }
+    if (r.ok && (s === "failed" || s === "canceled" || s === "cancelled")) {
+      panel.innerHTML = `<p class="eyebrow">Order confirmation</p>
+        <h1>The payment didn't go through</h1>
+        <p class="muted">Nothing was charged. You can try again whenever you're ready — your address is saved.</p>
+        <a class="btn btn-water" href="index.html#get-report">Back to checkout →</a>`;
+      return;
+    }
+    // pending / unknown / endpoint warming up: keep polling, never fake a failure
+    await new Promise(res => setTimeout(res, 3000));
+  }
+  panel.innerHTML = `<p class="eyebrow">Order confirmation</p>
+    <h1>Still processing</h1>
+    <p class="muted">Your payment is taking longer than usual to confirm. <b>Don't pay twice</b> — your report link is on its way to your email (unsubscribe anytime, one click).</p>
+    <button class="btn btn-water" id="retry">Keep checking</button>
+    <p class="tiny" style="margin-top:12px">Still stuck after 10 minutes? Email <a href="mailto:info@mehyar.us">info@mehyar.us</a> and we'll sort it out.</p>`;
+  $("#retry").addEventListener("click", () => {
+    panel.innerHTML = `<p class="eyebrow">Order confirmation</p><h1>Confirming your payment…</h1>
+      <div class="state working"><span class="spin"></span> Waiting for the payment processor…</div>`;
+    poll();
+  });
+}
+</script>
+</body>
+</html>

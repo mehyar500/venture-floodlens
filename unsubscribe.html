@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Unsubscribe — FloodLens</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="site-head"><div class="inner">
+  <a class="logo" href="index.html"><span class="wave">🌊</span>Flood<span class="lens">Lens</span></a>
+</div></header>
+<div class="wrap">
+  <section class="hero" style="padding-top:36px">
+    <p class="eyebrow">Unsubscribe</p>
+    <h1>One click, and we're gone.</h1>
+    <p class="lede">Enter the email you used with FloodLens. No login, no "are you sure" maze — we'll suppress all FloodLens email to it immediately.</p>
+    <div class="lookup">
+      <form id="unsubForm">
+        <div class="field-row">
+          <input type="email" id="unsubEmail" placeholder="you@email.com" required>
+          <button class="go" type="submit">Unsubscribe</button>
+        </div>
+      </form>
+      <div id="unsubStatus" style="margin-top:12px"></div>
+    </div>
+    <p class="tiny">Note: unsubscribing stops FloodLens marketing and follow-up email. Order receipts for purchases you've already made are still sent as required.</p>
+  </section>
+  <footer class="site">
+    <div class="brand">🌊 Flood<span class="lens">Lens</span> <span class="tiny">by Mehyar Soft LLC</span></div>
+    <nav><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="unsubscribe.html">Unsubscribe</a></nav>
+    <div class="tiny">© 2026 Mehyar Soft LLC.</div>
+  </footer>
+</div>
+<script type="module">
+import { $, apiPost, validEmail } from "./assets/app.js";
+const em = $("#unsubEmail"), st = $("#unsubStatus");
+const pre = new URLSearchParams(location.search).get("email");
+if (pre) em.value = pre;
+$("#unsubForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const email = em.value.trim();
+  if (!validEmail(email)) { st.innerHTML = `<div class="state error">That email doesn't look right — try again.</div>`; return; }
+  st.innerHTML = `<div class="state working"><span class="spin"></span>Unsubscribing…</div>`;
+  const r = await apiPost("https://mehyar.us/api/floodlens/unsubscribe", { email }, 12000);
+  st.innerHTML = (r.ok)
+    ? `<div class="state working" style="background:var(--ok-soft);color:var(--ok)">✓ Done — no more FloodLens email to ${email.replace(/[<>&"]/g,"")}.</div>`
+    : `<div class="state warn">The unsubscribe service is warming up — email <a href="mailto:info@mehyar.us?subject=Unsubscribe%20FloodLens">info@mehyar.us</a> and we'll handle it manually.</div>`;
+});
+</script>
+</body>
+</html>

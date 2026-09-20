@@ -1,25 +1,314 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>FloodLens — launching soon</title>
-  <style>
-    body { font-family: system-ui, -apple-system, sans-serif; margin: 0; min-height: 100vh;
-           display: flex; align-items: center; justify-content: center;
-           background: #06283d; color: #eaf4fb; text-align: center; padding: 24px; }
-    .card { max-width: 560px; }
-    h1 { font-size: 2.5rem; margin: 0 0 12px; letter-spacing: -0.02em; }
-    h1 .drop { color: #4fc3f7; }
-    p.tag { font-size: 1.15rem; opacity: .92; margin: 0 0 20px; }
-    p.soon { opacity: .6; font-size: .95rem; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FloodLens — Free FEMA Flood Zone Lookup | What Flood Zone Is This Address In?</title>
+<meta name="description" content="Type any U.S. address and get its free FEMA flood zone, plain-words risk, and typical insurance cost. Free forever. The $19 report explains what the zone means and what to ask your agent.">
+<meta property="og:title" content="FloodLens — Free FEMA flood zone lookup">
+<meta property="og:description" content="What flood zone is this address in, and what does it cost you? Free zone + plain-words risk. $19 full breakdown.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>">
+<link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-  <div class="card">
-    <h1><span class="drop">&#127754;</span> FloodLens</h1>
-    <p class="tag">What flood zone is this address in, and what does it cost you?</p>
-    <p class="soon">Launching soon.</p>
+<header class="site-head"><div class="inner">
+  <a class="logo" href="index.html"><span class="wave">🌊</span>Flood<span class="lens">Lens</span></a>
+  <a class="head-cta" href="#get-report">Get the report · $19</a>
+</div></header>
+
+<div class="wrap">
+  <!-- HERO: the free lookup IS the hero -->
+  <section class="hero">
+    <div class="free-pill">✓ 100% free lookup · no account</div>
+    <h1>What flood zone is this address in — <span class="hl">and what does it cost you?</span></h1>
+    <p class="lede">You fell in love with a house. The lender mentioned flood insurance. Type the address — FloodLens reads FEMA's flood maps and tells you the zone in plain English, free.</p>
+
+    <div class="lookup" id="lookupBox">
+      <label for="addr">Property address</label>
+      <form id="lookupForm">
+        <div class="field-row">
+          <input type="text" id="addr" name="address" placeholder="e.g. 123 Ocean Dr, Miami Beach, FL" autocomplete="street-address" required>
+          <button class="go" type="submit" id="lookupBtn">Check</button>
+        </div>
+        <p class="hint">Free. IP-rate-limited to keep FEMA's public service fair for everyone.</p>
+      </form>
+      <div class="lookup-status" id="lookupStatus"></div>
+      <div id="resultSlot"></div>
+    </div>
+    <p class="microcopy">The zone letter is free, forever. The result is never paywalled.</p>
+  </section>
+
+  <!-- email capture: native to the flow, right under the free result -->
+  <div id="captureSlot"></div>
+
+  <!-- BEFORE / AFTER -->
+  <section>
+    <p class="eyebrow">Why FloodLens exists</p>
+    <h2>FEMA's maps are public. They're also unreadable.</h2>
+    <div class="vs">
+      <div class="vs-card bad">
+        <h3>😵‍💫 Raw FEMA map</h3>
+        <div class="fauxmap">
+          <svg viewBox="0 0 320 180" width="100%" role="img" aria-label="Stylized raw FEMA flood map with zone polygons">
+            <rect width="320" height="180" fill="#E8EEF2"/>
+            <path d="M0,120 C60,100 120,140 180,115 C240,90 290,120 320,105 L320,180 L0,180 Z" fill="#BFD8E8"/>
+            <path d="M40,60 L120,40 L160,95 L90,120 Z" fill="#F5C16C" fill-opacity=".7" stroke="#8A5A1E" stroke-width="1.5" stroke-dasharray="5,3"/>
+            <path d="M170,50 L260,70 L240,130 L150,110 Z" fill="#E8A0A0" fill-opacity=".6" stroke="#8A2E1E" stroke-width="1.5" stroke-dasharray="5,3"/>
+            <text x="70" y="85" font-size="13" font-weight="bold" fill="#6B4A12">AE</text>
+            <text x="195" y="95" font-size="13" font-weight="bold" fill="#6B2418">VE</text>
+            <text x="12" y="165" font-size="10" fill="#5C7285">S_Fld_Haz_Ar · DFIRM 12086C · ???</text>
+            <text x="306" y="30" font-size="10" fill="#5C7285" text-anchor="end">0.2 PCT ANNUAL CHANCE…</text>
+          </svg>
+        </div>
+        <p class="small muted" style="margin:0">One zone letter can mean thousands a year — and the map won't tell you which.</p>
+      </div>
+      <div class="vs-card good">
+        <h3>💡 FloodLens decoded</h3>
+        <div class="result-card" style="--rc-bar:#B3402A;--rc-ink:#B3402A;--rc-soft:#FBEAE6;margin:10px 0">
+          <span class="badge-unofficial">Not an official flood determination</span>
+          <div class="rc-row">
+            <div class="rc-zone">AE</div>
+            <div>
+              <div class="rc-risk">High risk</div>
+              <div class="rc-sub">Insurance required with a federally backed mortgage</div>
+            </div>
+          </div>
+          <div class="rc-est">
+            <div class="tiny" style="font-weight:800;letter-spacing:.08em;text-transform:uppercase">Typical NFIP cost (estimate)</div>
+            <div class="amt">$800–$2,000<span class="cap">/year</span></div>
+          </div>
+        </div>
+        <p class="small muted" style="margin:0">The same public data — decoded into dollars and next steps.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section>
+    <p class="eyebrow">How it works</p>
+    <h2>Thirty seconds, then you're informed.</h2>
+    <ol class="steps">
+      <li><b>Type the address</b><span>Free FEMA zone lookup — the zone letter, plain-words risk, and data vintage. No account.</span></li>
+      <li><b>Get the full breakdown by email</b><span>We'll send the decoded zone breakdown (unsubscribe anytime, one click).</span></li>
+      <li><b>Unlock the 10-page report — $19</b><span>What the zone means, the insurance cost range and how premiums are estimated, the questions to ask your agent and insurer, and how the zone changed over time. Printable for your records.</span></li>
+    </ol>
+  </section>
+
+  <!-- SAMPLE REPORT -->
+  <section id="sample">
+    <p class="eyebrow amber">Sample report</p>
+    <h2>See what $19 buys before you buy it.</h2>
+    <p class="muted">Rendered samples from the 10-page PDF. Your report is built for the exact address you looked up.</p>
+    <div class="pages-strip">
+      <div class="doc-page">
+        <span class="dp-num">Page 1 of 10 · Sample</span>
+        <div class="dp-eyebrow">FloodLens report</div>
+        <h4>Flood risk, decoded for<br>123 Ocean Dr, Miami Beach, FL</h4>
+        <div class="mini-card"><span class="bigzone">AE</span>
+          <p style="margin:6px 0 0"><b>High risk</b> — insurance required with a federally backed mortgage.</p></div>
+        <p class="tiny">Map effective: shown on every report · FEMA data checked at generation time</p>
+      </div>
+      <div class="doc-page">
+        <span class="dp-num">Page 3 of 10 · Sample</span>
+        <div class="dp-eyebrow">What the zone means</div>
+        <h4>Zone AE, in plain English</h4>
+        <p>AE is a 1%-annual-chance (100-year) flood area with Base Flood Elevations determined. High-risk areas face at least a 1-in-4 chance of flooding during a 30-year mortgage.</p>
+        <ul>
+          <li><b>SFHA:</b> yes — this is a Special Flood Hazard Area.</li>
+          <li><b>Mortgage:</b> a federally backed loan requires flood insurance here.</li>
+          <li><b>Note:</b> over 20% of NFIP claims come from outside high-risk zones — "not in a flood zone" is not "no flood risk."</li>
+        </ul>
+      </div>
+      <div class="doc-page">
+        <span class="dp-num">Page 4 of 10 · Sample</span>
+        <div class="dp-eyebrow">Insurance cost range</div>
+        <h4>What AE typically costs</h4>
+        <div class="mini-card">
+          <p style="font-size:22px;font-weight:800;margin:0">$800–$2,000<span class="tiny">/year (estimate)</span></p>
+          <p class="tiny" style="margin:6px 0 0">Scaled from published NFIP medians for a $250,000 building-coverage policy. Median ≈ $1,200 at that coverage; full-risk up to ~$1,750+.</p>
+        </div>
+        <p>Under FEMA's Risk Rating 2.0, zone is no longer the main pricing driver — distance to water, replacement cost, elevation, foundation, and claims history are. Premiums are property-specific.</p>
+        <p class="tiny">Estimates, not quotes. Get a real quote at floodsmart.gov.</p>
+      </div>
+      <div class="doc-page">
+        <span class="dp-num">Page 7 of 10 · Sample</span>
+        <div class="dp-eyebrow">Questions to ask</div>
+        <h4>Take this to your agent</h4>
+        <ul>
+          <li>What is the property's elevation relative to the Base Flood Elevation?</li>
+          <li>Is there an elevation certificate on file — and can I see it?</li>
+          <li>Has this address ever filed an NFIP claim? (Claims history follows the property.)</li>
+          <li>Are there any Letters of Map Change (LOMA/LOMR) affecting this lot?</li>
+          <li>How would the premium change with a higher deductible or less contents coverage?</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="get-report">
+    <p class="eyebrow">Pricing</p>
+    <h2>The free lookup told you the what. The report tells you the so-what.</h2>
+    <div class="price-grid">
+      <div class="price-card featured">
+        <span class="p-tag">Most popular</span>
+        <div class="p-name">Single report</div>
+        <div class="p-price">$19 <small>one-time</small></div>
+        <ul>
+          <li>10-page PDF for your exact address</li>
+          <li>Zone decoded in plain English</li>
+          <li>Insurance cost range + how premiums are estimated</li>
+          <li>Questions for your agent &amp; insurer</li>
+          <li>How the zone changed over time</li>
+          <li>Printable for your records</li>
+        </ul>
+        <div class="field-row" style="display:flex;gap:10px;margin:6px 0 12px">
+          <input type="email" id="buyEmail" placeholder="Email for delivery" style="flex:1;min-width:0;font-size:16px;padding:14px;border:1.5px solid var(--line);border-radius:14px">
+        </div>
+        <button class="btn btn-water" id="buySingle">Get my report — $19</button>
+        <p class="microcopy">Secure checkout · receipt by email (one-click unsubscribe)</p>
+      </div>
+      <div class="price-card">
+        <div class="p-name">3-pack — comparing houses</div>
+        <div class="p-price">$39 <small>one-time · save $18</small></div>
+        <ul>
+          <li>Everything in the single report × 3</li>
+          <li>Three addresses, your pick</li>
+          <li>Side-by-side zone comparison</li>
+          <li>Printable for your records</li>
+        </ul>
+        <button class="btn btn-ghost" id="buyPack">Get the 3-pack — $39</button>
+        <p class="microcopy">For buyers comparing houses</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section>
+    <p class="eyebrow">FAQ</p>
+    <h2>Questions buyers ask</h2>
+    <div class="faq"><summary>Is the lookup really free?</summary>
+      <p>Yes — the FEMA zone letter, the plain-words risk level, and the data vintage are free, forever, with no account. We ask for your email so we can send the full breakdown (unsubscribe anytime, one click). The $19 report is the upgrade: a 10-page PDF that explains what the zone means in dollars and what to ask your agent.</p></div>
+    <div class="faq"><summary>Where does the data come from?</summary>
+      <p>Every lookup reads FEMA's National Flood Hazard Layer (NFHL) — the same public dataset behind FEMA's own Map Service Center. We never invent or interpolate a zone. If FEMA is temporarily unreachable, we say so and show the last checked data with its date — or nothing at all.</p></div>
+    <div class="faq"><summary>Is this an official flood determination?</summary>
+      <p>No. This is an informational lookup — not a certified flood zone determination, and not a replacement for the Standard Flood Hazard Determination Form (SFHDF) your lender or insurer requires. Boundaries are approximate, maps change over time, and recent map amendments may not be reflected yet.</p></div>
+    <div class="faq"><summary>What does "Zone AE" mean in dollars?</summary>
+      <p>Zone AE means high risk — insurance required with a federally backed mortgage. Typical NFIP cost for an AE property is roughly $800–$2,000/year (estimate, for a $250,000 building-coverage policy; median ≈ $1,200). Your actual premium is set by your insurer under FEMA's Risk Rating 2.0 and varies by property — get a real quote at floodsmart.gov.</p></div>
+    <div class="faq"><summary>What if my address isn't in FEMA's maps?</summary>
+      <p>We'll tell you honestly — "no FEMA flood data for this location" — instead of faking it, and point you to FEMA's Map Service Center. Areas labeled D are possible but undetermined flood hazard (unstudied); FEMA prices in the uncertainty.</p></div>
+    <div class="faq"><summary>How do I unsubscribe from emails?</summary>
+      <p>Every email carries a one-click unsubscribe link, and you can always use our <a href="unsubscribe.html">unsubscribe page</a>. One click, no login, no maze.</p></div>
+    <div class="faq"><summary>Who makes FloodLens?</summary>
+      <p>FloodLens is built by Mehyar Soft LLC. Questions: <a href="mailto:info@mehyar.us">info@mehyar.us</a>.</p></div>
+  </section>
+
+  <div class="trust">
+    <b>Free zone lookup · FEMA-sourced data · "Data as of" on every result</b><br>
+    <span class="tiny">Not an official flood determination. Premium ranges are estimates, not quotes.</span>
   </div>
+
+  <footer class="site">
+    <div class="brand">🌊 Flood<span class="lens">Lens</span> <span class="tiny">by Mehyar Soft LLC</span></div>
+    <nav><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="unsubscribe.html">Unsubscribe</a></nav>
+    <div class="tiny">Flood data: FEMA National Flood Hazard Layer. Not an official flood determination. Not insurance or lending advice. © 2026 Mehyar Soft LLC.</div>
+  </footer>
+</div>
+
+<script type="module">
+import { $, apiPost, esc, resultCard, warmingUpHTML, validEmail, getEmail, setEmail, getLookup, setLookup, isTestMode, LOOKUP_URL, SUBSCRIBE_URL, CHECKOUT_URL, DISCLAIMER } from "./assets/app.js";
+
+const form = $("#lookupForm"), addrInput = $("#addr"), status = $("#lookupStatus"), slot = $("#resultSlot"), capSlot = $("#captureSlot");
+addrInput.value = (getLookup() && getLookup().address) || "";
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const address = addrInput.value.trim();
+  if (!address) return;
+  $("#lookupBtn").disabled = true;
+  slot.innerHTML = ""; capSlot.innerHTML = "";
+  status.innerHTML = `<div class="state working"><span class="spin"></span>Reading FEMA's flood maps for this address…</div>`;
+  const r = await apiPost(LOOKUP_URL, { address }, 15000);
+  $("#lookupBtn").disabled = false;
+  if (r.networkError || !r.ok || !r.data || r.data.ok !== true) {
+    status.innerHTML = warmingUpHTML();
+    return;
+  }
+  const d = r.data;
+  status.innerHTML = "";
+  setLookup({ address, token: d.lookup_token });
+  slot.innerHTML = resultCard(d);
+  slot.scrollIntoView({ behavior: "smooth", block: "start" });
+  // email capture — native to the flow, never a gate
+  capSlot.innerHTML = `
+    <div class="capture" id="captureBox">
+      <h3>Get the full breakdown by email</h3>
+      <p>Zone ${esc(d.zone || "")} decoded for this address — what it means, what it costs, what to ask. Free.</p>
+      <form id="capForm">
+        <div class="field-row">
+          <input type="email" id="capEmail" placeholder="you@email.com" value="${esc(getEmail())}" required>
+          <button class="go" type="submit">Send it</button>
+        </div>
+        <p class="tiny">One-click unsubscribe in every email. We never sell your address.</p>
+      </form>
+      <div id="capStatus"></div>
+    </div>
+    <div class="cta-stack" style="margin:6px 0 20px">
+      <a class="btn btn-primary" href="#get-report">Unlock the 10-page report — $19 →</a>
+      <p class="microcopy">The obvious next step after a great free result.</p>
+    </div>`;
+  $("#capForm").addEventListener("submit", async (ev) => {
+    ev.preventDefault();
+    const email = $("#capEmail").value.trim();
+    if (!validEmail(email)) { $("#capStatus").innerHTML = `<div class="state error">That email doesn't look right — try again.</div>`; return; }
+    $("#capStatus").innerHTML = `<div class="state working"><span class="spin"></span>Sending…</div>`;
+    const s = await apiPost(SUBSCRIBE_URL, { email, lookup_token: d.lookup_token }, 12000);
+    setEmail(email);
+    const eb = $("#buyEmail"); if (eb && !eb.value) eb.value = email;
+    $("#capStatus").innerHTML = (s.ok && s.data && s.data.ok)
+      ? `<div class="state working" style="background:var(--ok-soft);color:var(--ok)">✓ On its way — check your inbox.</div>`
+      : `<div class="state warn">Couldn't save the subscription just now — your free result above is unaffected.</div>`;
+  });
+});
+
+// checkout
+async function checkout(product_id) {
+  const email = ($("#buyEmail").value || getEmail()).trim();
+  if (!validEmail(email)) { alert("Enter your email first — that's where we deliver the report."); $("#buyEmail").focus(); return; }
+  setEmail(email);
+  const lk = getLookup() || {};
+  const body = {
+    product_id, email,
+    params: { lookup_token: lk.token || null, address: lk.address || addrInput.value.trim() || null },
+    success_url: "https://floodlens.mehyar.us/success.html",
+    cancel_url: "https://floodlens.mehyar.us/#get-report",
+  };
+  if (isTestMode()) body.test = true;
+  const btn = product_id === "floodlens-report" ? $("#buySingle") : $("#buyPack");
+  btn.disabled = true; const orig = btn.textContent; btn.textContent = "Opening secure checkout…";
+  const r = await apiPost(CHECKOUT_URL, body, 15000);
+  btn.disabled = false; btn.textContent = orig;
+  if (r.ok && r.data && r.data.ok && r.data.checkout_url) {
+    location.href = r.data.checkout_url;
+  } else {
+    alert("Checkout isn't available right now — please try again in a moment. Nothing was charged.");
+  }
+}
+$("#buySingle").addEventListener("click", () => checkout("floodlens-report"));
+$("#buyPack").addEventListener("click", () => checkout("floodlens-3pack"));
+$("#buyEmail").value = getEmail();
+
+// ?demo=1 → render a labeled sample result for screenshots/QA
+if (new URLSearchParams(location.search).get("demo") === "1") {
+  status.innerHTML = "";
+  slot.innerHTML = `<p class="tiny center" style="margin:0">SAMPLE RESULT — enter a real address above for a live lookup</p>` + resultCard({
+    address_normalized: "123 Ocean Dr, Miami Beach, FL 33139",
+    zone: "AE", zone_subtype: "1% annual chance flood hazard", sfha: true,
+    risk_plain: "High risk", risk_summary: "Insurance required with a federally backed mortgage.",
+    premium_range: "$800–$2,000", data_as_of: "Sep 18, 2026",
+  });
+}
+</script>
 </body>
 </html>
