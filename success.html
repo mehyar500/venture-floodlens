@@ -6,7 +6,7 @@
 <title>FloodLens — Payment confirmation</title>
 <meta name="robots" content="noindex">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>">
-<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/style.css?v=2">
 </head>
 <body>
 <header class="site-head"><div class="inner">
@@ -29,7 +29,7 @@
 </div>
 
 <script type="module">
-import { $, apiGet, esc, DOWNLOAD_URL, STATUS_URL } from "./assets/app.js";
+import { $, apiGet, esc, DOWNLOAD_URL, STATUS_URL } from "./assets/app.js?v=2";
 
 const panel = $("#panel");
 const token = new URLSearchParams(location.search).get("token");

@@ -9,7 +9,7 @@
 <meta property="og:description" content="What flood zone is this address in, and what does it cost you? Free zone + plain-words risk. $19 full breakdown.">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>">
-<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/style.css?v=2">
 </head>
 <body>
 <header class="site-head"><div class="inner">
@@ -226,7 +226,7 @@
 </div>
 
 <script type="module">
-import { $, apiPost, esc, toast, markReady, resultCard, warmingUpHTML, validEmail, getEmail, setEmail, getLookup, setLookup, isTestMode, LOOKUP_URL, SUBSCRIBE_URL, CHECKOUT_URL, DISCLAIMER } from "./assets/app.js";
+import { $, apiPost, esc, toast, markReady, resultCard, warmingUpHTML, validEmail, getEmail, setEmail, getLookup, setLookup, isTestMode, LOOKUP_URL, SUBSCRIBE_URL, CHECKOUT_URL, DISCLAIMER } from "./assets/app.js?v=2";
 
 const form = $("#lookupForm"), addrInput = $("#addr"), status = $("#lookupStatus"), slot = $("#resultSlot"), capSlot = $("#captureSlot");
 addrInput.value = (getLookup() && getLookup().address) || "";
