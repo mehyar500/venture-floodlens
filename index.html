@@ -247,7 +247,7 @@ form.addEventListener("submit", async (e) => {
   }
   const d = r.data;
   status.innerHTML = "";
-  setLookup({ address, token: d.lookup_token });
+  setLookup({ address, token: d.token });
   slot.innerHTML = resultCard(d);
   slot.scrollIntoView({ behavior: "smooth", block: "start" });
   // email capture — native to the flow, never a gate
@@ -273,7 +273,7 @@ form.addEventListener("submit", async (e) => {
     const email = $("#capEmail").value.trim();
     if (!validEmail(email)) { $("#capStatus").innerHTML = `<div class="state error">That email doesn't look right — try again.</div>`; return; }
     $("#capStatus").innerHTML = `<div class="state working"><span class="spin"></span>Sending…</div>`;
-    const s = await apiPost(SUBSCRIBE_URL, { email, lookup_token: d.lookup_token }, 12000);
+    const s = await apiPost(SUBSCRIBE_URL, { email, lookup_token: d.token }, 12000);
     setEmail(email);
     const eb = $("#buyEmail"); if (eb && !eb.value) eb.value = email;
     $("#capStatus").innerHTML = (s.ok && s.data && s.data.ok)
@@ -306,7 +306,7 @@ $("#packLookupBtn").addEventListener("click", async () => {
       packStatus(`<div class="state warn">Couldn't read FEMA data for address ${i + 1} — try again in a moment. Nothing saved yet.</div>`);
       btn.disabled = false; btn.textContent = orig; return;
     }
-    out.push({ address: addrs[i], token: r.data.lookup_token, zone: r.data.zone });
+    out.push({ address: addrs[i], token: r.data.token, zone: r.data.zone });
   }
   setPack(out); renderPack();
   packStatus(`<div class="state working" style="background:var(--ok-soft);color:var(--ok)">✓ All 3 lookups saved — the 3-pack is ready below.</div>`);
