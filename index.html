@@ -106,7 +106,7 @@
         <div class="dp-eyebrow">FloodLens report</div>
         <h4>Flood risk, decoded for<br>123 Ocean Dr, Miami Beach, FL</h4>
         <div class="mini-card"><span class="bigzone">AE</span>
-          <p style="margin:6px 0 0"><b>High risk</b> — insurance required with a federally backed mortgage.</p></div>
+          <p style="margin:6px 0 0"><b>High risk</b> — insurance required with a federally backed mortgage.</p></details>
         <p class="tiny">Map effective: shown on every report · FEMA data checked at generation time</p>
       </div>
       <div class="doc-page">
@@ -197,20 +197,20 @@
   <section>
     <p class="eyebrow">FAQ</p>
     <h2>Questions buyers ask</h2>
-    <div class="faq"><summary>Is the lookup really free?</summary>
-      <p>Yes — the FEMA zone letter, the plain-words risk level, and the data vintage are free, forever, with no account. We ask for your email so we can send the full breakdown (unsubscribe anytime, one click). The $19 report is the upgrade: a 10-page PDF that explains what the zone means in dollars and what to ask your agent.</p></div>
-    <div class="faq"><summary>Where does the data come from?</summary>
-      <p>Every lookup reads FEMA's National Flood Hazard Layer (NFHL) — the same public dataset behind FEMA's own Map Service Center. We never invent or interpolate a zone. If FEMA is temporarily unreachable, we say so and show the last checked data with its date — or nothing at all.</p></div>
-    <div class="faq"><summary>Is this an official flood determination?</summary>
-      <p>No. This is an informational lookup — not a certified flood zone determination, and not a replacement for the Standard Flood Hazard Determination Form (SFHDF) your lender or insurer requires. Boundaries are approximate, maps change over time, and recent map amendments may not be reflected yet.</p></div>
-    <div class="faq"><summary>What does "Zone AE" mean in dollars?</summary>
-      <p>Zone AE means high risk — insurance required with a federally backed mortgage. Typical NFIP cost for an AE property is roughly $800–$2,000/year (estimate, for a $250,000 building-coverage policy; median ≈ $1,200). Your actual premium is set by your insurer under FEMA's Risk Rating 2.0 and varies by property — get a real quote at floodsmart.gov.</p></div>
-    <div class="faq"><summary>What if my address isn't in FEMA's maps?</summary>
-      <p>We'll tell you honestly — "no FEMA flood data for this location" — instead of faking it, and point you to FEMA's Map Service Center. Areas labeled D are possible but undetermined flood hazard (unstudied); FEMA prices in the uncertainty.</p></div>
-    <div class="faq"><summary>How do I unsubscribe from emails?</summary>
-      <p>Every email carries a one-click unsubscribe link, and you can always use our <a href="unsubscribe.html">unsubscribe page</a>. One click, no login, no maze.</p></div>
-    <div class="faq"><summary>Who makes FloodLens?</summary>
-      <p>FloodLens is built by Mehyar Soft LLC. Questions: <a href="mailto:info@mehyar.us">info@mehyar.us</a>.</p></div>
+    <details class="faq"><summary>Is the lookup really free?</summary>
+      <p>Yes — the FEMA zone letter, the plain-words risk level, and the data vintage are free, forever, with no account. We ask for your email so we can send the full breakdown (unsubscribe anytime, one click). The $19 report is the upgrade: a 10-page PDF that explains what the zone means in dollars and what to ask your agent.</p></details>
+    <details class="faq"><summary>Where does the data come from?</summary>
+      <p>Every lookup reads FEMA's National Flood Hazard Layer (NFHL) — the same public dataset behind FEMA's own Map Service Center. We never invent or interpolate a zone. If FEMA is temporarily unreachable, we say so and show the last checked data with its date — or nothing at all.</p></details>
+    <details class="faq"><summary>Is this an official flood determination?</summary>
+      <p>No. This is an informational lookup — not a certified flood zone determination, and not a replacement for the Standard Flood Hazard Determination Form (SFHDF) your lender or insurer requires. Boundaries are approximate, maps change over time, and recent map amendments may not be reflected yet.</p></details>
+    <details class="faq"><summary>What does "Zone AE" mean in dollars?</summary>
+      <p>Zone AE means high risk — insurance required with a federally backed mortgage. Typical NFIP cost for an AE property is roughly $800–$2,000/year (estimate, for a $250,000 building-coverage policy; median ≈ $1,200). Your actual premium is set by your insurer under FEMA's Risk Rating 2.0 and varies by property — get a real quote at floodsmart.gov.</p></details>
+    <details class="faq"><summary>What if my address isn't in FEMA's maps?</summary>
+      <p>We'll tell you honestly — "no FEMA flood data for this location" — instead of faking it, and point you to FEMA's Map Service Center. Areas labeled D are possible but undetermined flood hazard (unstudied); FEMA prices in the uncertainty.</p></details>
+    <details class="faq"><summary>How do I unsubscribe from emails?</summary>
+      <p>Every email carries a one-click unsubscribe link, and you can always use our <a href="unsubscribe.html">unsubscribe page</a>. One click, no login, no maze.</p></details>
+    <details class="faq"><summary>Who makes FloodLens?</summary>
+      <p>FloodLens is built by Mehyar Soft LLC. Questions: <a href="mailto:info@mehyar.us">info@mehyar.us</a>.</p></details>
   </section>
 
   <div class="trust">
@@ -226,7 +226,7 @@
 </div>
 
 <script type="module">
-import { $, apiPost, esc, resultCard, warmingUpHTML, validEmail, getEmail, setEmail, getLookup, setLookup, isTestMode, LOOKUP_URL, SUBSCRIBE_URL, CHECKOUT_URL, DISCLAIMER } from "./assets/app.js";
+import { $, apiPost, esc, toast, markReady, resultCard, warmingUpHTML, validEmail, getEmail, setEmail, getLookup, setLookup, isTestMode, LOOKUP_URL, SUBSCRIBE_URL, CHECKOUT_URL, DISCLAIMER } from "./assets/app.js";
 
 const form = $("#lookupForm"), addrInput = $("#addr"), status = $("#lookupStatus"), slot = $("#resultSlot"), capSlot = $("#captureSlot");
 addrInput.value = (getLookup() && getLookup().address) || "";
@@ -240,6 +240,7 @@ form.addEventListener("submit", async (e) => {
   status.innerHTML = `<div class="state working"><span class="spin"></span>Reading FEMA's flood maps for this address…</div>`;
   const r = await apiPost(LOOKUP_URL, { address }, 15000);
   $("#lookupBtn").disabled = false;
+  if (r.networkError) toast("Couldn't reach the lookup service — check your connection and try again.", "error");
   if (r.networkError || !r.ok || !r.data || r.data.ok !== true) {
     status.innerHTML = warmingUpHTML();
     return;
@@ -316,7 +317,7 @@ renderPack();
 // checkout
 async function checkout(product_id) {
   const email = ($("#buyEmail").value || getEmail()).trim();
-  if (!validEmail(email)) { alert("Enter your email first — that's where we deliver the report."); $("#buyEmail").focus(); return; }
+  if (!validEmail(email)) { toast("Enter your email first — that's where we deliver the report.", "warn"); $("#buyEmail").focus(); return; }
   setEmail(email);
   const lk = getLookup() || {};
   let params;
@@ -324,7 +325,7 @@ async function checkout(product_id) {
     const pk = getPack();
     const tokens = pk.map((p) => p.token).filter(Boolean);
     if (tokens.length !== 3 || new Set(tokens).size !== 3) {
-      alert("Look up all 3 addresses above first — the 3-pack needs 3 saved lookups.");
+      toast("Look up all 3 addresses above first — the 3-pack needs 3 saved lookups.", "warn");
       $("#packAddrs").scrollIntoView({ behavior: "smooth", block: "center" });
       return;
     }
@@ -345,7 +346,7 @@ async function checkout(product_id) {
   if (r.ok && r.data && r.data.ok && r.data.checkout_url) {
     location.href = r.data.checkout_url;
   } else {
-    alert("Checkout isn't available right now — please try again in a moment. Nothing was charged.");
+    toast("Checkout isn't available right now — please try again in a moment. Nothing was charged.", "error");
   }
 }
 $("#buySingle").addEventListener("click", () => checkout("floodlens-report"));
@@ -362,6 +363,19 @@ if (new URLSearchParams(location.search).get("demo") === "1") {
     premium_range: "$800–$2,000", data_as_of: "Sep 18, 2026",
   });
 }
+markReady(); // module imports resolved + handlers attached
+</script>
+<!-- Init guard: if the module above failed (e.g. broken import), say so visibly instead of leaving dead buttons. -->
+<script>
+setTimeout(function () {
+  if (!window.__floodlensReady) {
+    var b = document.createElement("div");
+    b.className = "fl-init-fail";
+    b.setAttribute("role", "alert");
+    b.innerHTML = "&#9888;&#65039; Something didn't load correctly — <a href=\"\" onclick=\"location.reload();return false;\">reload the page</a> and try again. Still stuck? Email <a href=\"mailto:info@mehyar.us\">info@mehyar.us</a>.";
+    document.body.insertBefore(b, document.body.firstChild);
+  }
+}, 3000);
 </script>
 </body>
 </html>

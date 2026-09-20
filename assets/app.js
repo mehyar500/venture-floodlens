@@ -1,6 +1,7 @@
 /* FloodLens shared helpers — API clients, honest error states, zone rendering. */
-const $ = (s, r) => (r || document).querySelector(s);
-const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+/* DOM helpers — exported: every page module imports `$`. */
+export const $ = (s, r) => (r || document).querySelector(s);
+export const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
 
 const API = "https://mehyar.us/api";
 export const LOOKUP_URL = `${API}/floodlens/lookup`;
@@ -152,3 +153,28 @@ export function warmingUpHTML() {
 export function isTestMode() {
   return new URLSearchParams(location.search).get("test") === "1";
 }
+
+/* Visible error toast — buttons must never fail silently. */
+export function toast(msg, kind = "error") {
+  let host = document.getElementById("fl-toast-host");
+  if (!host) {
+    host = document.createElement("div");
+    host.id = "fl-toast-host";
+    host.setAttribute("role", "alert");
+    document.body.appendChild(host);
+  }
+  const el = document.createElement("div");
+  el.className = `fl-toast fl-toast-${kind === "warn" ? "warn" : "error"}`;
+  el.innerHTML = esc(msg);
+  host.appendChild(el);
+  setTimeout(() => { el.classList.add("out"); setTimeout(() => el.remove(), 400); }, 7000);
+  return el;
+}
+
+/* Init guard: the inline page module sets this once imports+handlers are live.
+   A classic (non-module) guard script shows a visible banner if it never lands,
+   so a future broken import degrades honestly instead of leaving dead buttons. */
+export function markReady() { window.__floodlensReady = true; }
+window.addEventListener("error", (e) => {
+  if (window.__floodlensReady) toast("Something went wrong — please try again. Nothing was charged.", "error");
+});
