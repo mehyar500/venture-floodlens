@@ -120,7 +120,7 @@ p{margin:0 0 1em}
 .doc-page{background:#fff;border:1px solid var(--line);border-radius:8px;box-shadow:0 6px 22px rgba(11,30,42,.12);padding:26px 24px;position:relative}
 .doc-page .dp-num{position:absolute;top:10px;right:14px;font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--faint);text-transform:uppercase}
 .doc-page .dp-eyebrow{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--water-deep);margin-bottom:8px}
-.doc-page h4{font-family:var(--serif);font-size:21px;margin:0 0 10px;letter-spacing:-.01em}
+.doc-page .doc-h{font-family:var(--serif);font-size:21px;margin:0 0 10px;letter-spacing:-.01em}
 .doc-page p,.doc-page li{font-size:13.5px;color:var(--ink-soft)}
 .doc-page ul{padding-left:18px;margin:8px 0}
 .doc-page .mini-card{border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:10px 0;background:#FBFDFE}
