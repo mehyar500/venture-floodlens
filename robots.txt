@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /success.html
+Sitemap: https://floodlens.mehyar.us/sitemap.xml

@@ -1,0 +1,33 @@
+# FloodLens
+
+FloodLens is a free FEMA flood zone lookup for any U.S. address: type an address and get the official FEMA flood zone letter with a plain-words risk explanation and a "data as of" date. Homebuyers use it when a lender mentions flood insurance and the FEMA map is unreadable. The zone letter is free, forever; the paid report is the upgrade. Built by MehyarSoft LLC.
+
+## Key pages
+
+- / — landing page with the free address lookup tool; free result card shows zone letter, plain-words risk, and data-as-of date
+- /report.html — sample pages showing what the $19 report looks like
+- /success.html — post-Stripe confirmation; token-gated, polls payment status, links the PDF download
+- /privacy.html — privacy policy
+- /terms.html — terms of service
+- /unsubscribe.html — one-click unsubscribe (token/emailed links), one-click suppression
+- /robots.txt — crawl rules
+- /sitemap.xml — public page list
+
+## Pricing
+
+- Free: the FEMA zone letter, plain-words risk level, and "data as of" date. IP-rate-limited. An email capture ("Where should we send the full zone breakdown?") sits natively under the free result; never paywalled.
+- $19 one-time — FloodLens Flood Zone Report (SKU `floodlens-report`): 10-page PDF — what the zone means, insurance cost range and how premiums are estimated, questions to ask your agent/insurer, how the zone changed over time, printable for records.
+- $39 one-time — FloodLens 3-Property Pack (SKU `floodlens-3pack`): three reports, for buyers comparing houses.
+
+Checkout runs through the centralized MehyarSoft checkout (https://mehyar.us/api/pay/checkout); no refunds features/buttons/APIs exist on the product.
+
+## API
+
+- The paid 10-page report is narrated by exactly one AI call from supplied deterministic facts; zone lookup and insurance math are deterministic tables, not AI guesses.
+- Flood zone data comes from FEMA's public flood map services. Every result shows a "data as of" date. If FEMA is down, the site degrades honestly — cached vintage shown, never a faked zone.
+- POST /api/pay/checkout on mehyar.us — the shared Stripe checkout used by all MehyarSoft products.
+- GET /api/pay/status?token= and the token-gated PDF download — shared fulfillment via the mehyar-web webhook (fulfillFloodlens.js).
+
+## Compliance
+
+FloodLens reports are informational only. Every page carries: "Not an official flood determination." Premium ranges are estimates, not insurance quotes. FloodLens makes no insurance or legal outcome promises — it does not predict whether a property will flood, set premiums, or advise on insurance or legal decisions. FEMA's public data is the source of record; the report is a plain-words reading of it.

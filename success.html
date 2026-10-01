@@ -2,8 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<!-- TRACKING:GA4-GTM -->
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>FloodLens — Payment confirmation</title>
+<meta name="description" content="Confirming your FloodLens order. Once payment clears, your $19 FEMA flood zone report PDF is ready to download from this token-gated link.">
+<link rel="canonical" href="https://floodlens.mehyar.us/success.html">
+<meta name="theme-color" content="#0E7C96">
 <meta name="robots" content="noindex">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>">
 <link rel="stylesheet" href="assets/style.css?v=2">
@@ -36,7 +40,7 @@ const token = new URLSearchParams(location.search).get("token");
 
 if (!token) {
   panel.innerHTML = `<p class="eyebrow">Order confirmation</p>
-    <h1>We couldn't find your order</h1>
+    <h2>We couldn't find your order</h2>
     <p class="muted">There's no purchase token in this link. If you just paid, check your email for the report link (unsubscribe anytime, one click) — or start below.</p>
     <a class="btn btn-water" href="index.html">Look up a free zone →</a>`;
 } else {
@@ -52,7 +56,7 @@ async function poll() {
     if (r.ok && (s === "paid" || d.paid === true || d.ok === true)) {
       panel.innerHTML = `<p class="eyebrow">Payment confirmed</p>
         <div class="big-emoji">📄</div>
-        <h1>Your FloodLens report is ready</h1>
+        <h2>Your FloodLens report is ready</h2>
         <p class="muted">Token-gated download — this link is yours. Keep it somewhere safe.</p>
         <a class="btn btn-water" href="${DOWNLOAD_URL}?token=${encodeURIComponent(token)}" download>Download my report (PDF)</a>
         <p class="microcopy">The same link was emailed to you (one-click unsubscribe).</p>
@@ -62,7 +66,7 @@ async function poll() {
     }
     if (r.ok && (s === "failed" || s === "canceled" || s === "cancelled")) {
       panel.innerHTML = `<p class="eyebrow">Order confirmation</p>
-        <h1>The payment didn't go through</h1>
+        <h2>The payment didn't go through</h2>
         <p class="muted">Nothing was charged. You can try again whenever you're ready — your address is saved.</p>
         <a class="btn btn-water" href="index.html#get-report">Back to checkout →</a>`;
       return;
@@ -71,12 +75,12 @@ async function poll() {
     await new Promise(res => setTimeout(res, 3000));
   }
   panel.innerHTML = `<p class="eyebrow">Order confirmation</p>
-    <h1>Still processing</h1>
+    <h2>Still processing</h2>
     <p class="muted">Your payment is taking longer than usual to confirm. <b>Don't pay twice</b> — your report link is on its way to your email (unsubscribe anytime, one click).</p>
     <button class="btn btn-water" id="retry">Keep checking</button>
     <p class="tiny" style="margin-top:12px">Still stuck after 10 minutes? Email <a href="mailto:info@mehyar.us">info@mehyar.us</a> and we'll sort it out.</p>`;
   $("#retry").addEventListener("click", () => {
-    panel.innerHTML = `<p class="eyebrow">Order confirmation</p><h1>Confirming your payment…</h1>
+    panel.innerHTML = `<p class="eyebrow">Order confirmation</p><h2>Confirming your payment…</h2>
       <div class="state working"><span class="spin"></span> Waiting for the payment processor…</div>`;
     poll();
   });
