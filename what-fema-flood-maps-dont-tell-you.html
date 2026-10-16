@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://audience.mehyar.us/b.js" data-product="floodlens"></script>
+<script src="/attr-capture.js" defer></script>
+<meta charset="UTF-8">
+<!-- TRACKING:GA4-GTM -->
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-PZLMLZ5C');</script>
+<!-- End Google Tag Manager -->
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1199658068992900');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1199658068992900&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SJJ3C8C21P"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-SJJ3C8C21P');</script>
+<!-- End Google Analytics 4 -->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>What FEMA Flood Maps Don't Tell You — FloodLens</title>
+<meta name="description" content="A FEMA flood map gives your address a zone letter — not the whole story. Map age, Risk Rating 2.0 property-level pricing, claims outside high-risk zones, elevation certificates and LOMA: what the map leaves out.">
+<link rel="canonical" href="https://floodlens.mehyar.us/what-fema-flood-maps-dont-tell-you">
+<meta property="og:title" content="What FEMA Flood Maps Don't Tell You">
+<meta property="og:description" content="The zone letter is real, but it's a snapshot: aging maps, property-level Risk Rating 2.0 pricing, the one-in-three claims that come from outside high-risk zones, and how a map gets corrected.">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2026-10-15">
+<meta property="og:url" content="https://floodlens.mehyar.us/what-fema-flood-maps-dont-tell-you">
+<meta property="og:image" content="https://floodlens.mehyar.us/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="What FEMA flood maps don't tell you">
+<meta name="twitter:description" content="Map age, Risk Rating 2.0, Zone X claims, elevation certificates and LOMA — the layer behind the zone letter, in plain English.">
+<meta name="twitter:image" content="https://floodlens.mehyar.us/assets/og-image.png">
+<meta name="theme-color" content="#0E7C96">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>">
+<link rel="stylesheet" href="assets/style.css?v=2">
+<style>
+.news{padding:36px 0 6px}
+.news h1{font-size:34px;letter-spacing:-.02em;line-height:1.15;margin:0 0 16px}
+.news h2{font-size:22px;margin:30px 0 10px;letter-spacing:-.01em}
+.lede{font-size:17px;color:var(--muted);margin:0 0 12px}
+.cta-card{background:var(--water-soft);border:1.5px solid var(--water-line);border-radius:var(--radius);padding:22px;margin:24px 0;box-shadow:var(--shadow)}
+.cta-card h2{margin:0 0 8px;font-size:20px}
+.cta-card p{margin:0 0 14px;color:var(--ink-soft)}
+.factlist{margin:10px 0 16px;padding-left:20px;color:var(--ink-soft)}
+.factlist li{margin:0 0 10px}
+.qa h3{font-size:17px;margin:18px 0 4px}
+.qa p{margin:0 0 6px;color:var(--ink-soft)}
+.qa a{color:var(--water-deep)}
+.news .btn{margin:0 0 10px}
+/* Sprint 2026-10-01: sticky mobile CTA bar → free lookup funnel */
+.sticky-cta{display:none}
+@media (max-width:720px){
+  .sticky-cta{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:50;
+    align-items:center;gap:10px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));
+    background:rgba(14,124,150,.97);color:#fff;box-shadow:0 -4px 18px rgba(0,0,0,.25);
+    backdrop-filter:blur(6px)}
+  .sticky-cta .msg{font-size:13.5px;line-height:1.3;flex:1}
+  .sticky-cta .msg b{display:block;font-size:14.5px}
+  .sticky-cta .go{flex:0 0 auto;background:#fff;color:#0E7C96;font-weight:800;
+    padding:10px 14px;border-radius:10px;text-decoration:none;font-size:14px;white-space:nowrap}
+  .sticky-cta .x{flex:0 0 auto;background:none;border:0;color:#fff;font-size:20px;
+    line-height:1;padding:6px;opacity:.8;cursor:pointer}
+  .sticky-cta.hidden{display:none}
+  body{padding-bottom:70px}
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "What FEMA Flood Maps Don't Tell You",
+  "datePublished": "2026-10-15",
+  "dateModified": "2026-10-15",
+  "author": {
+    "@type": "Organization",
+    "name": "FloodLens",
+    "url": "https://floodlens.mehyar.us/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Mehyar Soft LLC"
+  },
+  "description": "A FEMA flood map gives your address a zone letter — not the whole story. Map age, Risk Rating 2.0 property-level pricing, claims outside high-risk zones, elevation certificates and LOMA: what the map leaves out.",
+  "mainEntityOfPage": "https://floodlens.mehyar.us/what-fema-flood-maps-dont-tell-you"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How old are FEMA flood maps?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It varies by community. FEMA updates its maps in pieces, and many panels in active use are years old — some much older — even as development changes how water moves. Note the effective date on your address's map panel, and check whether a revision is pending."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "If my home is in Zone X, can it still flood?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Zone X means the property is outside the modeled 1%-annual-chance area — not that flooding is impossible. Roughly one in three NFIP claims comes from outside the high-risk zones (FEMA-cited; estimates range 25–40%), and intense local rainfall can flood minimal-risk streets. Insurance is optional in Zone X and typically cheaper, but the risk is not zero."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is an elevation certificate, and do I need one?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "An elevation certificate is a surveyor-prepared document recording a building's elevation relative to the base flood elevation (BFE). Under Risk Rating 2.0 it is not always required for an NFIP quote, but it can affect rating, and it is the core evidence if you believe your property was mapped into a high-risk zone incorrectly and want to pursue a Letter of Map Amendment (LOMA)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can my flood zone change?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. FEMA revises maps as new studies and flood events come in — Austin's 2026 update is moving some Zone X parcels near Barton, Onion, and Shoal Creeks into Zone AE. A reclassification can change your premium and trigger a lender insurance requirement at renewal or refinance. Owners can also request changes through the LOMA/LOMR process when elevation data supports it."
+      }
+    }
+  ]
+}
+</script>
+<!-- Google Ads tag (AW-18487796006) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18487796006"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-18487796006');
+</script>
+<!-- End Google Ads tag -->
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PZLMLZ5C" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<header class="site-head"><div class="inner">
+  <a class="logo" href="/"><span class="wave">🌊</span>Flood<span class="lens">Lens</span></a>
+  <a class="head-cta" href="/#get-report">Get the report · $9</a>
+</div></header>
+
+<div class="wrap">
+  <article class="news">
+    <p class="eyebrow">🗺️ MAP LITERACY · Beyond the zone letter</p>
+    <h1>What FEMA Flood Maps Don't Tell You</h1>
+    <p class="lede">A FEMA flood map looks authoritative: crisp lines, official letters, a government seal. And the zone letter it gives your address is real — lenders and insurers act on it daily. But the map is a snapshot built for a specific job, and there are things it was never designed to tell you.</p>
+    <div class="card cta-card">
+      <h2>Check any address — free, plain English</h2>
+      <p>FloodLens reads FEMA's official flood map for the address: the zone letter, what it means in plain words, and the "data as of" date. Free, no account.</p>
+      <a class="btn btn-primary" href="/">🔍 Check an address free →</a>
+      <p class="tiny">Insurers and lenders already priced this street's zone — see it first.</p>
+    </div>
+    <h2>The map may be older than the neighborhood</h2>
+    <p>FEMA's Flood Insurance Rate Maps were drawn community by community, over decades. Many panels in active use are years old, updated in patches rather than redrawn whole. Meanwhile the land changes: subdivisions, parking lots, and roads replace soil that used to absorb rain, and water runs somewhere new. A boundary drawn before a decade of development can describe a watershed that no longer exists. FEMA revises maps in pieces — Austin's 2026 update is reclassifying some Zone X parcels near Barton, Onion, and Shoal Creeks to Zone AE — but parts of the national map describe the past as much as the present.</p>
+    <h2>Your premium is no longer set by the letter alone</h2>
+    <p>For decades, the zone letter was close to the whole pricing story. Under <strong>Risk Rating 2.0</strong>, the NFIP now prices each property individually: distance to water, flood types, foundation, first-floor height, and rebuilding cost all feed the premium. The zone still matters — it decides whether a lender can require coverage — but two homes with the same letter can pay very different amounts: real 2025 premiums for Houston homes in Zone AE span roughly $493 to over $4,000 a year. A map that shows only the letter cannot show you that spread.</p>
+    <h2>Zone X does not mean "no risk"</h2>
+    <p>The most dangerous reading of a flood map is treating the high-risk boundary as a wall between "floods" and "doesn't flood." Roughly <strong>one in three NFIP claims</strong> comes from properties <em>outside</em> the mapped high-risk zones (FEMA-cited; published estimates range 25–40%). The maps are strongest on riverine and coastal flooding; intense local rainfall can put water in streets the map paints as minimal risk. Zone X means "not in the modeled 1%-annual-chance area." It does not mean dry.</p>
+    <h2>The map can be corrected — and your elevation is evidence</h2>
+    <p>If the map looks wrong for your parcel, there is a formal way to argue with it. An <strong>elevation certificate</strong> from a licensed surveyor documents your building's elevation relative to the base flood elevation — it's used in rating and is the core evidence for corrections. If a property sits on ground above the base flood elevation but was mapped into the high-risk zone anyway, the owner can apply for a <strong>LOMA</strong> (Letter of Map Amendment); an approved LOMA removes the federal insurance requirement for that structure. The elevation data has to support it — but for mis-mapped parcels it's the difference between a mandatory premium and none.</p>
+    <h2>So what should you actually do with a map?</h2>
+    <p>Use it for what it's good at: the official zone your lender and insurer will use. Then go one layer deeper — pricing factors, elevation, claims outside the lines, pending revisions. That's the gap a decoded report fills: the map gives you a letter; you still have to work out what the letter costs.</p>
+    <div class="card cta-card">
+      <h2>Get the layer the map leaves out</h2>
+      <p>The FloodLens report takes one address beyond the letter: what the zone means in plain words, the typical insurance cost range for it, how the designation has changed over time, and whether elevation-certificate or LOMA questions are worth asking for this parcel.</p>
+      <a class="btn btn-primary" href="/#get-report">Get the $9 report →</a>
+      <p class="tiny">10-page PDF: typical insurance cost ranges, zone history, and the questions to ask your agent. Not an official flood determination.</p>
+    </div>
+    <h2>Frequently asked questions</h2>
+    <div class="qa">
+      <h3>How old are FEMA flood maps?</h3>
+      <p>It varies by community. FEMA updates its maps in pieces, and many panels in active use are years old — some much older — even as development changes how water moves. Note the effective date on your address's map panel, and check whether a revision is pending.</p>
+      <h3>If my home is in Zone X, can it still flood?</h3>
+      <p>Yes. Zone X means the property is outside the modeled 1%-annual-chance area — not that flooding is impossible. Roughly one in three NFIP claims comes from outside the high-risk zones (FEMA-cited; estimates range 25–40%), and intense local rainfall can flood minimal-risk streets. Insurance is optional in Zone X and typically cheaper, but the risk is not zero.</p>
+      <h3>What is an elevation certificate, and do I need one?</h3>
+      <p>An elevation certificate is a surveyor-prepared document recording a building's elevation relative to the base flood elevation (BFE). Under Risk Rating 2.0 it is not always required for an NFIP quote, but it can affect rating, and it is the core evidence if you believe your property was mapped into a high-risk zone incorrectly and want to pursue a Letter of Map Amendment (LOMA).</p>
+      <h3>Can my flood zone change?</h3>
+      <p>Yes. FEMA revises maps as new studies and flood events come in — Austin's 2026 update is moving some Zone X parcels near Barton, Onion, and Shoal Creeks into Zone AE. A reclassification can change your premium and trigger a lender insurance requirement at renewal or refinance. Owners can also request changes through the LOMA/LOMR process when elevation data supports it.</p>
+    </div>
+    <p class="tiny">FloodLens is informational only — not an official flood determination, not insurance, and not lending or legal advice. FEMA's Flood Map Service Center and your insurance agent are the authorities for a specific property.</p>
+  </article>
+
+  <div class="trust">
+    <b>Free zone lookup · FEMA-sourced data · "Data as of" on every result</b><br>
+    <span class="tiny">Not an official flood determination. Premium ranges are estimates, not quotes.</span>
+  </div>
+  <div class="sticky-cta" id="stickyCta" role="region" aria-label="Free flood-zone lookup">
+    <span class="msg"><b>The letter isn't the whole story</b>Check your FEMA flood zone — free, plain English</span>
+    <a class="go" href="/">Check free →</a>
+    <button class="x" id="stickyX" aria-label="Dismiss">×</button>
+  </div>
+  <script>(function(){var b=document.getElementById('stickyX'),c=document.getElementById('stickyCta');if(b&&c){b.addEventListener('click',function(){c.classList.add('hidden')});}})();</script>
+
+  <footer class="site">
+    <div class="brand">🌊 Flood<span class="lens">Lens</span> <span class="tiny">by Mehyar Soft LLC</span></div>
+    <nav><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/unsubscribe">Unsubscribe</a></nav>
+    <div class="tiny">Flood data: FEMA National Flood Hazard Layer. Not an official flood determination. Not insurance or lending advice. © 2026 Mehyar Soft LLC.</div>
+  </footer>
+</div>
+</body>
+</html>

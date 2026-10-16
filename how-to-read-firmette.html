@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://audience.mehyar.us/b.js" data-product="floodlens"></script>
+<script src="/attr-capture.js" defer></script>
+<meta charset="UTF-8">
+<!-- TRACKING:GA4-GTM -->
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f)})(window,document,'script','dataLayer','GTM-PZLMLZ5C');</script>
+<!-- End Google Tag Manager -->
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1199658068992900');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1199658068992900&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SJJ3C8C21P"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-SJJ3C8C21P');</script>
+<!-- End Google Analytics 4 -->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>How to Read a FIRMette (and What Your Flood Map Is Really Telling You) — FloodLens</title>
+<meta name="description" content="A FIRMette is FEMA's official flood-map excerpt for one property. How to read the zone letter, the base flood elevation, and what each means for insurance.">
+<link rel="canonical" href="https://floodlens.mehyar.us/how-to-read-firmette">
+<meta property="og:title" content="How to read a FIRMette in 5 minutes">
+<meta property="og:description" content="A FIRMette is FEMA's official flood-map excerpt for one property. How to read the zone letter, the base flood elevation, and what each means for insurance.">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2026-10-02">
+<meta property="og:url" content="https://floodlens.mehyar.us/how-to-read-firmette">
+<meta property="og:image" content="https://floodlens.mehyar.us/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How to read a FIRMette in 5 minutes">
+<meta name="twitter:description" content="A FIRMette is FEMA's official flood-map excerpt for one property. How to read the zone letter, the base flood elevation, and what each means for insurance.">
+<meta name="twitter:image" content="https://floodlens.mehyar.us/assets/og-image.png">
+<meta name="theme-color" content="#0E7C96">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>">
+<link rel="stylesheet" href="assets/style.css?v=2">
+<style>
+.news{padding:36px 0 6px}
+.news h1{font-size:34px;letter-spacing:-.02em;line-height:1.15;margin:0 0 16px}
+.news h2{font-size:22px;margin:30px 0 10px;letter-spacing:-.01em}
+.lede{font-size:17px;color:var(--muted);margin:0 0 12px}
+.cta-card{background:var(--water-soft);border:1.5px solid var(--water-line);border-radius:var(--radius);padding:22px;margin:24px 0;box-shadow:var(--shadow)}
+.cta-card h2{margin:0 0 8px;font-size:20px}
+.cta-card p{margin:0 0 14px;color:var(--ink-soft)}
+.factlist{margin:10px 0 16px;padding-left:20px;color:var(--ink-soft)}
+.factlist li{margin:0 0 10px}
+.qa h3{font-size:17px;margin:18px 0 4px}
+.qa p{margin:0 0 6px;color:var(--ink-soft)}
+.qa a{color:var(--water-deep)}
+.news .btn{margin:0 0 10px}
+.steps{margin:10px 0 16px;padding-left:20px;color:var(--ink-soft)}
+.steps li{margin:0 0 12px}
+.steps li b{color:var(--ink)}
+.sticky-cta{display:none}
+@media (max-width:720px){
+  .sticky-cta{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:50;
+    align-items:center;gap:10px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));
+    background:rgba(14,124,150,.97);color:#fff;box-shadow:0 -4px 18px rgba(0,0,0,.25);
+    backdrop-filter:blur(6px)}
+  .sticky-cta .msg{font-size:13.5px;line-height:1.3;flex:1}
+  .sticky-cta .msg b{display:block;font-size:14.5px}
+  .sticky-cta .go{flex:0 0 auto;background:#fff;color:#0E7C96;font-weight:800;
+    padding:10px 14px;border-radius:10px;text-decoration:none;font-size:14px;white-space:nowrap}
+  .sticky-cta .x{flex:0 0 auto;background:none;border:0;color:#fff;font-size:20px;
+    line-height:1;padding:6px;opacity:.8;cursor:pointer}
+  .sticky-cta.hidden{display:none}
+  body{padding-bottom:70px}
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How to Read a FIRMette (and What Your Flood Map Is Really Telling You)",
+  "datePublished": "2026-10-02",
+  "dateModified": "2026-10-02T07:20:00-04:00",
+  "author": {"@type": "Organization", "name": "FloodLens", "url": "https://floodlens.mehyar.us/"},
+  "publisher": {"@type": "Organization", "name": "Mehyar Soft LLC"},
+  "description": "A FIRMette is FEMA's official flood-map excerpt for one property. How to read the zone letter, the base flood elevation, and what each means for insurance.",
+  "mainEntityOfPage": "https://floodlens.mehyar.us/how-to-read-firmette"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a FIRMette?",
+      "acceptedAnswer": {"@type": "Answer", "text": "A FIRMette is a printable excerpt of FEMA's Flood Insurance Rate Map centered on one address — the official zone determination for that property, with panel number and effective date. Insurers and lenders read it the same way."}
+    },
+    {
+      "@type": "Question",
+      "name": "What does Zone AE mean on my FIRMette?",
+      "acceptedAnswer": {"@type": "Answer", "text": "Zone AE is a high-risk zone with a defined base flood elevation — the 1%-annual-chance flood standard applies, and federally regulated lenders require flood insurance for mortgaged properties in it (GAO-09-12)."}
+    },
+    {
+      "@type": "Question",
+      "name": "My FIRMette says Zone X — am I safe?",
+      "acceptedAnswer": {"@type": "Answer", "text": "Zone X (moderate/minimal risk) is not a no-risk designation. Roughly one in three NFIP claims come from outside high-risk zones (FEMA-cited). The letter lowers your quote; it doesn't eliminate exposure."}
+    },
+    {
+      "@type": "Question",
+      "name": "What is base flood elevation and why does it set my price?",
+      "acceptedAnswer": {"@type": "Answer", "text": "Base flood elevation is the computed height floodwater reaches in the 1%-annual-chance event. Insurers compare your first-floor height to it: in Houston's Zone AE, real 2025 premiums for the same zone span roughly $493 to $4,166, driven mostly by this one comparison (floodinsuranceguru.com, real policy data)."}
+    }
+  ]
+}
+</script>
+<!-- Google Ads tag (AW-18487796006) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18487796006"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-18487796006');
+</script>
+<!-- End Google Ads tag -->
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PZLMLZ5C" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<header class="site-head"><div class="inner">
+  <a class="logo" href="/"><span class="wave">🌊</span>Flood<span class="lens">Lens</span></a>
+  <a class="head-cta" href="/#get-report">Get the report · $9</a>
+</div></header>
+
+<div class="wrap">
+  <article class="news">
+    <p class="eyebrow amber">🗺️ FLOOD MAPS · Plain-English guide</p>
+    <h1>How to read your FIRMette in 5 minutes</h1>
+    <p class="lede">A <strong>FIRMette is the official FEMA flood-map excerpt for a single property</strong> — the same document insurers and lenders read. Three things on it decide your insurance math: the <strong>zone letter</strong>, the <strong>base flood elevation (BFE)</strong>, and the map's <strong>effective date</strong>.</p>
+    <p class="lede">You don't need to become a surveyor. Read these four steps in order — then let the zone letter work for you instead of against you.</p>
+    <div class="lookup" id="pageLookupBox">
+      <label for="pageLookupAddr">Check your address — free, 30 seconds</label>
+      <form id="pageLookupForm">
+        <div class="field-row">
+          <input type="text" id="pageLookupAddr" name="address" placeholder="e.g. 123 Main St, Houston, TX" autocomplete="street-address" required>
+          <button class="go" type="submit" id="pageLookupBtn">Check free</button>
+        </div>
+        <p class="hint">Free, plain English, no account. Insurers already priced your street's zone — see what FEMA assigned your address before your next quote or renewal.</p>
+      </form>
+      <div class="lookup-status" id="pageLookupStatus"></div>
+      <div id="pageLookupResultSlot"></div>
+    </div>
+
+
+    <div class="card cta-card">
+      <h2>Skip the map-reading: get your zone in plain English, free</h2>
+      <p>We read the official FEMA data for any U.S. address and hand you the zone letter, the risk, and what it means — in 30 seconds, no map skills required.</p>
+      <a class="btn btn-primary" href="/">🔍 Check my address free →</a>
+    </div>
+
+    <h2>The 4-step read</h2>
+    <ol class="steps">
+      <li><b>Step 1 — Find the zone letter.</b> AE / A / AH / AO = high-risk; X / B / C = moderate-to-minimal risk; VE = coastal high-risk. This letter is where every insurance quote starts.</li>
+      <li><b>Step 2 — Read the base flood elevation (BFE).</b> The height floodwater is expected to reach in the 1%-annual-chance flood. Your first floor's height vs this number is the single biggest premium lever inside any zone.</li>
+      <li><b>Step 3 — Check the effective date and panel number.</b> Maps get revised. An outdated panel can mean an outdated zone — <a href="flood-insurance-quote-texas">Austin's 2026 revision</a> moved some Zone X parcels near Barton, Onion, and Shoal Creeks into Zone AE, changing insurance math overnight.</li>
+      <li><b>Step 4 — Look for the floodway boundary.</b> The floodway is the channel plus the land needed to carry floodwater. Building or insuring inside it faces the strictest rules and the hardest quotes.</li>
+    </ol>
+
+    <h2>What it means for your quote</h2>
+    <ul class="factlist">
+      <li><strong>Zone AE with a defined BFE:</strong> federally regulated lenders require flood insurance on mortgaged properties (GAO-09-12). Texas NFIP average for high-risk zones: <strong>$1,021/year</strong> (LendingTree, 2025).</li>
+      <li><strong>Same letter, wildly different quotes.</strong> Within Houston's Zone AE, real 2025 premiums span roughly <strong>$493 to $4,166</strong> — the first-floor-vs-BFE comparison drives most of that spread.</li>
+      <li><strong>Zone X is not a no-risk letter.</strong> Roughly one in three NFIP claims come from outside high-risk areas (FEMA-cited). Lower quote, not eliminated exposure.</li>
+      <li><strong>The cheapest fix for a bad quote:</strong> an elevation certificate proving your first floor sits higher than the map assumes — the highest-ROI document in flood insurance.</li>
+    </ul>
+
+    <h2>Questions homeowners ask about their FIRMette</h2>
+    <div class="qa">
+      <h3>What is a FIRMette?</h3>
+      <p>A <strong>FIRMette</strong> is a printable excerpt of FEMA's Flood Insurance Rate Map centered on one address — the official zone determination for that property, with panel number and effective date. Insurers and lenders read it the same way.</p>
+      <h3>What does Zone AE mean on my FIRMette?</h3>
+      <p><strong>Zone AE</strong> is a high-risk zone with a defined base flood elevation — the 1%-annual-chance flood standard applies, and federally regulated lenders <strong>require flood insurance for mortgaged properties</strong> in it (GAO-09-12).</p>
+      <h3>My FIRMette says Zone X — am I safe?</h3>
+      <p><strong>Zone X (moderate/minimal risk) is not a no-risk designation.</strong> Roughly one in three NFIP claims come from outside high-risk zones (FEMA-cited). The letter lowers your quote; it doesn't eliminate exposure.</p>
+      <h3>What is base flood elevation and why does it set my price?</h3>
+      <p><strong>Base flood elevation</strong> is the computed height floodwater reaches in the 1%-annual-chance event. Insurers compare your first-floor height to it: in Houston's Zone AE, real 2025 premiums for the same zone span roughly <strong>$493 to $4,166</strong>, driven mostly by this one comparison (floodinsuranceguru.com, real policy data).</p>
+    </div>
+
+    <div class="card cta-card">
+      <h2>Your map, decoded</h2>
+      <p>Skip the panel numbers and acronyms — see your official FEMA zone in plain English, free, then get the $9 report that decodes what it means for your quote.</p>
+      <a class="btn btn-primary" href="/">🔍 Check my address free →</a>
+      <a class="btn" href="/#get-report">Get the $9 report →</a>
+    </div>
+
+    <p class="tiny">Related: <a href="flood-insurance-quote-texas">What your FEMA flood zone means for your insurance quote in Texas</a> · <a href="loma-how-to">How to file a LOMA</a> · <a href="nfip-vs-private-flood-insurance">NFIP vs private flood insurance in Texas</a> · <a href="/storm-october-2026">Texas flash floods, Oct 1, 2026</a>. Premium figures are published NFIP averages and estimates, not quotes. Not insurance or lending advice. Flood data: FEMA National Flood Hazard Layer. Not an official flood determination. © 2026 Mehyar Soft LLC.</p>
+  </article>
+
+  <div class="trust">
+    <b>Free zone lookup · FEMA-sourced data · "Data as of" on every result</b><br>
+    <span class="tiny">Not an official flood determination. Premium ranges are estimates, not quotes.</span>
+  </div>
+  <div class="sticky-cta" id="stickyCta" role="region" aria-label="Free flood-zone lookup">
+    <span class="msg"><b>Your quote already knows your zone.</b>Check your FEMA flood zone — free, plain English</span>
+    <a class="go" href="/#get-report">Check free →</a>
+    <button class="x" id="stickyX" aria-label="Dismiss">×</button>
+  </div>
+  <script>(function(){var b=document.getElementById('stickyX'),c=document.getElementById('stickyCta');if(b&&c){b.addEventListener('click',function(){c.classList.add('hidden')});}})();</script>
+
+  <script type="module">
+  /* Embedded lookup (sprint landing fix, 2026-10-03): visitors get the free zone
+     result ON the landing page — one hop to the $9 report after, instead of two
+     hops before any value. Reuses app.js exports; same pattern as the storm page. */
+  import { $, apiPost, toast, resultCard, warmingUpHTML, addressNotFoundHTML, setLookup, LOOKUP_URL } from "./assets/app.js?v=20261004-reframe";
+  const LOOKUP_SRC = "page-firmette";
+  const sForm = $("#pageLookupForm"), sAddr = $("#pageLookupAddr"), sStatus = $("#pageLookupStatus"), sSlot = $("#pageLookupResultSlot");
+  sForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const address = sAddr.value.trim();
+    if (!address) return;
+    const btn = $("#pageLookupBtn"); btn.disabled = true;
+    sSlot.innerHTML = "";
+    sStatus.innerHTML = `<div class="state working"><span class="spin"></span>Reading FEMA's flood maps for this address...</div>`;
+    const r = await apiPost(LOOKUP_URL, { address, src: LOOKUP_SRC }, 15000);
+    btn.disabled = false;
+    if (r.networkError) toast("Couldn't reach the lookup service — check your connection and try again.", "error");
+    if (r.networkError || !r.ok || !r.data || r.data.ok !== true) { const __err = (r.data && r.data.error) || ""; if (__err === "address_not_found") { sStatus.innerHTML = addressNotFoundHTML(address); } else { sStatus.innerHTML = warmingUpHTML(); } return; }
+    const d = r.data;
+    sStatus.innerHTML = "";
+    setLookup({ address, token: d.token });
+    sSlot.innerHTML = resultCard(d).replaceAll('href="#get-report"', 'href="/#get-report"');
+    try {
+      const __leadKey = "fl_lead_" + (d.token || d.address_normalized || d.address || "");
+      if (!sessionStorage.getItem(__leadKey)) {
+        sessionStorage.setItem(__leadKey, "1");
+        if (typeof fbq === "function") fbq("track", "Lead", { content_name: "flood_zone_lookup", zone: d.zone || "?" });
+        if (typeof ttq === "function") ttq("track", "Lead", { content_name: "flood_zone_lookup" });
+        if (window.dataLayer) window.dataLayer.push({ event: "lookup_complete", zone: d.zone || "?" });
+      }
+    } catch (err) {}
+    sSlot.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+  </script>
+
+
+  <footer class="site">
+    <div class="brand">🌊 Flood<span class="lens">Lens</span> <span class="tiny">by Mehyar Soft LLC</span></div>
+    <nav><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/unsubscribe">Unsubscribe</a></nav>
+    <div class="tiny">Flood data: FEMA National Flood Hazard Layer. Not an official flood determination. Not insurance or lending advice. © 2026 Mehyar Soft LLC.</div>
+  </footer>
+</div>
+</body>
+</html>

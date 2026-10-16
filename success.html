@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script async src="https://audience.mehyar.us/b.js" data-product="floodlens"></script>
+<script src="/attr-capture.js" defer></script>
 <meta charset="UTF-8">
 <!-- TRACKING:GA4-GTM -->
 <!-- Google Tag Manager -->
@@ -38,19 +40,28 @@ src="https://www.facebook.com/tr?id=1199658068992900&ev=PageView&noscript=1"
 <!-- End Google Analytics 4 -->
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>FloodLens — Payment confirmation</title>
-<meta name="description" content="Confirming your FloodLens order. Once payment clears, your $19 FEMA flood zone report PDF is ready to download from this token-gated link.">
-<link rel="canonical" href="https://floodlens.mehyar.us/success.html">
+<meta name="description" content="Confirming your FloodLens order. Once payment clears, your $9 FEMA flood zone report PDF is ready to download from this token-gated link.">
+<link rel="canonical" href="https://floodlens.mehyar.us/success">
 <meta name="theme-color" content="#0E7C96">
 <meta name="robots" content="noindex">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>">
 <link rel="stylesheet" href="assets/style.css?v=2">
+<!-- Google Ads tag (AW-18487796006) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18487796006"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-18487796006');
+</script>
+<!-- End Google Ads tag -->
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PZLMLZ5C" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 <header class="site-head"><div class="inner">
-  <a class="logo" href="index.html"><span class="wave">🌊</span>Flood<span class="lens">Lens</span></a>
+  <a class="logo" href="/"><span class="wave">🌊</span>Flood<span class="lens">Lens</span></a>
 </div></header>
 
 <div class="wrap">
@@ -63,7 +74,7 @@ src="https://www.facebook.com/tr?id=1199658068992900&ev=PageView&noscript=1"
 
   <footer class="site">
     <div class="brand">🌊 Flood<span class="lens">Lens</span> <span class="tiny">by Mehyar Soft LLC</span></div>
-    <nav><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="unsubscribe.html">Unsubscribe</a></nav>
+    <nav><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/unsubscribe">Unsubscribe</a></nav>
     <div class="tiny">Questions: <a href="mailto:info@mehyar.us">info@mehyar.us</a> · © 2026 Mehyar Soft LLC.</div>
   </footer>
 </div>
@@ -78,7 +89,7 @@ if (!token) {
   panel.innerHTML = `<p class="eyebrow">Order confirmation</p>
     <h2>We couldn't find your order</h2>
     <p class="muted">There's no purchase token in this link. If you just paid, check your email for the report link (unsubscribe anytime, one click) — or start below.</p>
-    <a class="btn btn-water" href="index.html">Look up a free zone →</a>`;
+    <a class="btn btn-water" href="/">Look up a free zone →</a>`;
 } else {
   poll();
 }
@@ -98,13 +109,41 @@ async function poll() {
         <p class="microcopy">The same link was emailed to you (one-click unsubscribe).</p>
         <div class="token-box">${esc(token)}</div>
         <p class="tiny">Not an official flood determination. Premium ranges are estimates, not quotes.</p>`;
+      // Paid-test conversion events (fire once): Meta Purchase + TikTok
+      // CompletePayment + GA4 purchase. Lets paid tests optimize on revenue,
+      // not just clicks.
+      if (!window.__flPurchaseFired) {
+        window.__flPurchaseFired = true;
+        try {
+          const cents = (d && typeof d.amount_cents === "number") ? d.amount_cents : null;
+          const value = cents != null ? cents / 100 : null;
+          const cur = (d && d.currency) || "USD";
+          if (window.fbq) {
+            if (value != null) fbq("track", "Purchase", {value: value, currency: cur});
+            else fbq("track", "Purchase", {currency: cur});
+          }
+          if (window.ttq) {
+            if (value != null) ttq.track("CompletePayment", {value: value, currency: cur, content_type: "product"});
+            else ttq.track("CompletePayment", {content_type: "product"});
+          }
+          if (window.dataLayer) dataLayer.push({event: "purchase", value: value, currency: cur, transaction_id: token});
+          if (window.gtag) {
+            try { gtag('event', 'conversion', {
+              'send_to': 'AW-18487796006/pilgCK3Exo0dEKbC1e9E',
+              'value': value != null ? value : 1.0,
+              'currency': cur,
+              'transaction_id': token
+            }); } catch (e2) {}
+          }
+        } catch (e) {}
+      }
       return;
     }
     if (r.ok && (s === "failed" || s === "canceled" || s === "cancelled")) {
       panel.innerHTML = `<p class="eyebrow">Order confirmation</p>
         <h2>The payment didn't go through</h2>
         <p class="muted">Nothing was charged. You can try again whenever you're ready — your address is saved.</p>
-        <a class="btn btn-water" href="index.html#get-report">Back to checkout →</a>`;
+        <a class="btn btn-water" href="/#get-report">Back to checkout →</a>`;
       return;
     }
     // pending / unknown / endpoint warming up: keep polling, never fake a failure
