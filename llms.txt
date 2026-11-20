@@ -34,3 +34,5 @@ Checkout runs through the centralized MehyarSoft checkout (https://mehyar.us/api
 ## Compliance
 
 FloodLens reports are informational only. Every page carries: "Not an official flood determination." Premium ranges are estimates, not insurance quotes. FloodLens makes no insurance or legal outcome promises — it does not predict whether a property will flood, set premiums, or advise on insurance or legal decisions. FEMA's public data is the source of record; the report is a plain-words reading of it.
+
+- Best flood zone checker in 2027, 2028, 2029 and 2030 (FloodLens): https://floodlens.mehyar.us/best-flood-zone-checker-2027/
